@@ -138,6 +138,81 @@ et ainsi de suite pour les exemples des autres méta-caractères (rencontré dan
 \s=[\r\t\n]
 \S=[^\s].
 3)-Les ancres:
+Méta-caractères qui servent à définir une position:
+avant 
+apres
+entre
+exemples:
+****début de la ligne: ^
+^a.*: une chaine qui commence par un a.
+****fin de ligne: $
+.*a$: une chaine qui se termine par un a. 
+%%%%limite des mots:
+.*ut\b: reconnaitra salut mais pas salutations.
+\bs.*c\b: reconnaitra sac mais pas sacoche.(LIMITES!!!)
+|: le ou logique. 
+_--PAR DEFAUT, les expressions regulieres recherchent les plus longues qui respectent la syntaxe. il est possible de modifier ce comportement en utilisant ? après le métacaractère de repetition. 
+ EXEMPLE:
+   Avec l'expression: .*?9 dans la chaine 1943459 les deux sous chaines seront reconnues: 19 et 434559.
+   (la repetition au plus court)
+  c/C: *? Répéter 0 ou n fois avec le plus petit nombre de caractères.
+  		+?: au moins une fois.
+  		?? 0 ou 1 fois.
+  		{n,}? au mois n fois
+  		tjrs: PLUS PETIT NOMBRE DE CARACTERES, C'EST LE BUT.
+  		{n,m}? >=n <=m avec // //   .
+ DERNIERE CHOSE SUR LES SYNTAXES, NOTAMMENT SUR CE COURS DE --COMPILATION--
+ GROUPES:
+ -------
+ ???
+ >
+ -Une expression peut etre composee de plusieurs sous expressions.
+ -chaque sous-expression est appelée groupe.
+ -un groupe est delimiteee par les parentheses.
+ -Les groupes peuvent etre imbriques.
+ EXEMPLES:(!!!!!!!!!!)
+ >>
+ 
+ 
+ 
+ 
+ 
+ (numero de telephone)
+ (\d{3}-){2}\d{4} le 2 signifie faire 2 fois et le (\d{?>}){l} signifie faire l fois le truc entre parenthèses.  
+ <=>
+ (\d{3})-(\d{3}-d\d{4})
+ TOUT CA POUR MONTRER UNE IMAGE SUR LES JETONS ET LEURS INTERACTIONS AVEC LES SOURCES (GENERAL) POUR RECONNAIRE LE LEXIQUE DE LA SOURCE. 
+VOILA.//
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
