@@ -1,0 +1,166 @@
+
+1-compilation
+
+
+
+
+
+
+
+
+
+
+
+
+
+***********************************************PART1:
+
+compilateur: traducteur vers un language bas niveau.
+haut niveau: regis par une syntaxe complexe(C++)
+ETAPES:
+analyse+production
+
+
+
+
+a-
+phase one:
+	analyse lexicale (appartenance vocabulaire du language haut niveau) int pas intt =>erreur lexicale
+	analyse syntaxique (construction phrases / mots corrects syntaxiquement et respectent la grammaire du language (== et pas === en C par exemple)) int a retour a la ligne nn int a; puis retour a la ligne => erreur syntaxique
+	RQ: thorie des automates stipule qu'une grammaire permet de representer des derivations soit des languages soit des automates d'appartenance soit des respects apres un fin d'instruction ; par exemple.
+	analyse semantique (chaque phrase a une sens char a="abcde";a=3; non) plutot vers le sens.
+	RESUME:
+1=>analyse lexicale
+2=>analyse syntaxique
+3=>analyse semantique.
+
+
+b-
+phase two
+Generation code final (code machine)
+=>passe par un code intermediaire optimisee (fortran en C par exemple).
+
+
+SUMMARY:
+PHASES:
+-etapes lexicales: expressions regulieres; ADF.(tout ADF est lié à un language régulier soit une expression régulière par exemple (alpha)etoile est une expression regulière est le L(a+b)=L(a) union L(b) --théorie des automates).
+<=>expression reguliere via des AFD conduit à une vérification syntaxique comme un mot ca set ermine par 0? c'est pair. comme cela. c'est en lien avec le vocabulaire.
+-etapes syntaxiques: grammaires.(via des languages qui décrivent comment ca doit être une unité d'instruction typique à une instruction pour la vérifier via des passages aux aitomates..///)
+-analyse semantique/generation de code: traduction dirigee par la syntaxe.
+******************************************************************************************
+
+
+2-
+Types de compilateurs:
+a-
+a plusieurs passes(bcp utilises)
+b- 
+a une passe
+
+a-comment ca marche?
+*chaque etape une apres lautre appliquage sur l'entree.
+unite du programme plutot <=> bloc d'instructions (module aussi).
+1ere unite => scanne => analyse => verifie => genere le code final => fin du fichier ?
+si il en reste ; on en refait le meme processus.
+ET ON CONTINUE ainsi.
+
+<=>Les avantages:
+
+rapides; prennent pas bcp de memoire.
+<=>Lesinconvenients: 
+
+erreur a la derniere=>perte du temps pour traduire l'avant aussi l'optimisation du code(reprend tout le cycle et c'est la galere d'optimiser le bas niveau niveau hardware) tres limitee pas de portabilite le code genere ne fonctionne que pour le meme materiel majeur: nombre eleve de traductions a creeer. (repondre a toutes les combinaisons possibles..///)
+
+b-comment ca marche:(execution de programmes similaires separes EN SEQUENTIEL)
+parrallelement tout se lance (pipeline exemple de production dramatique)
+
+*a chaque etape ; lit a partir d'un fichier et ecrit sur un nouveau fichier jusqu'à la création du code final. Le code scanne lit donc le code source un nouveau fichier qui sera lue par le parseur qui produira le nouveau fichier=>analyse semantique(lexicale/syntaxique OK)=>=>=>code final objet. (-c en g++).//////
+inconvenients: 
+--long et occupe bcp de memoire
+
+
+
+=>a 2 passes mieux? CAR Apres la 1ere (lexicale,..) un fichier est genere comportant la representation intermediaire apres la deuxieme passe qui peut comporter l'optimisation et d'autres etapes: le code final est genere. La 1er depend du haut niveau et la deuxieme du materiel(PC,ETC...). Les combinaisons de traductions sont moins nombreuses(code => code intermediaire => materiel specifique).
+
+avantages receuillis:
+**meilleur portabilite, optimisation plus simple car faite sur le code intermediairre plutôt que le source(++)**(optimisation en terme de maniement de code intermédiaire pour avoir le rslt à la fin)
+--long occupe plus de memoire.(c'est mitigée)..
+CA PREND DU TEMPS!!
+********************************************************************************************
+VS interpretation(java)
+javac + execution multiplateforme. 
+compilation: traduction 100% avant execution
+interpretation: un bloc est traitee a a fois.(transformation puis execution(jsnode/php))
+A=>B genere B existe avant l'execution forcement
+seul A existe en interpretation 
+              AVANTAGES
+****compilation:
+1-erreurs avant l'execution.
+2-executionn est rapide(code machine)
+3-partage bas niveau (securite) sans lire la source.
+****interpretation:
+1-facilite la programmation
+2-resultats immediats
+3-offre plus de flexibilite et de dynamisme : l'unite anatomique est une instruction de language:
+*****RQ:L'atomicité est une propriété utilisée en programmation concurrente pour désigner une opération ou un ensemble d'opérations d'un programme qui s'exécute entièrement sans que le processus ou le thread qui la gère cède la place à un autre processus pendant tout le déroulement. Une opération qui vérifie cette propriété est qualifiée d'atomique.*****
+4-facilite l'implementation de fonctionnalitees reservees a la meta programmation 
+              INCONVENIENTS
+              INTRO
+              
+
+La métaprogrammation, nommée par analogie avec les métadonnées et les métaclasses[réf. souhaitée], désigne l'écriture de programmes qui manipulent des données décrivant elles-mêmes des programmes. Dans le cas particulier où le programme manipule ses propres instructions pendant son exécution, on parle de programme auto-modifiant. 
+
+
+
+
+
+5-gere a la fois: moins de flexibilite
+6-meta programmation difficile
+7-a chaque modification, une recompilation est necessaire
+interpretation
+           securite--
+
+%%lenteur a l'execution(c'est le source qui est distribuee pas le code machine!)
+
+
+=>profiter des avantages DES DEUX METHODES
+>languages hybrides
+source=>compilation()=>code intermediaire=>interpretation(via machine virtuelle d'execution par exemple)=>code machine(incluant le resultat final souhaite). (exemple: c#).
+-------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ANALYSE LEXICALE.(prochain chapitre)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
