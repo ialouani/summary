@@ -1,4 +1,198 @@
 COMPILATION(suite)
 1-ANALYSE LEXICALE:(first part)
 
+=>tous les mots appartiennent au language haut niveau. int intt.
+=>question de vocabulaire.
+!!a ne pas confondre avec syntaxique qui depend du language 2 languages peuvent dans une certaine manière aucune erreur syntaxique mais erreur lexicale oui!!
+
+
+--------------------------------------------------------------------------------------------
+
+
+
+
+Pour Le C PAR exemple, une description pysique et utilisee pour détecter les mots du code source. (int avec une couleur ~~~)
+
+=>ON UTILISE LA NOTION DE lexème au lieu de mot.[unité lexicale]
+<=>séquence finie de symboles de l'alphabet du language.
+espaces/retour a la ligne => negligeance => aucun impact (exemple C#).
+
+RESUME:
+--analyse lexicale conduit à l'analysé niveau 1 de la source redéfinie en lexèmes--.
+
+
+
+______________
+2ieme étape:
+chaque lexème appartient au vocab ?
+plusieurs..
+
+<=>parties logiques du fichier logique(fichier source) logiquement!!!!
+
+SOLUTION:
+
+En associant chaque lexème à chaque jeton.
+on peut définir un jeton variable comme a* a puis quelque chose
+ca définit le mot des variables
+un monde de définition de variables logiques(regroupant un grand nombre de lexèmes)
+le lexème qui peut atre associee a aucun lexème n'appartient pas au language.
+
+***************************
+
+
+
+
+Un jeton represente une partie logique du fichier.
+EX: 
+mot cle: if , while
+variable
+operateur
+litteral: true,"Canada"
+peut avoir des attribus optionnels qui sont tirees du texte par exemple une valeur numerique les 2 caracteres "137" sont associe a un jeton dont la valeur numerique vaut 137.
+
+
+ELLE CONSISTE a decouper le texte conformement a la definition lexicale du language. (en unites lexicales(lexème, jeton)), ainsi dès la compilation de nouveaux jetons regroupant des unités lexicales (lexèmes) définissent "abcde" par exemple qui était dans le segment de donnée avant et toutes autres de choses..
+
+Un jeton est associe à un ensemble de lexèmes:
+while=>{while}
+entier {0,...}
+l'ensemble de lexèmes (potentielement infini) represente un language qui peut etre decrit par:
+*expression reguliere.(theoreme des 2 equivalences voir 2-)
+*automate.(reconnaissance bien sur)
+*grammaire.(si AFD et w dans L(cet AFD) alors pour tout w' dans L tel que card(w')>card(Q) avec Q l'ensemble des états dans l'automate de la grammaire et il existe un v>0 telque |w'^v.x|<card(Q)  alors il existe y dans y.w'^v.x appartient a L de la grammaire et |y.w^v.x|>=card(Q).(LEMME DE L'ETOILE))
+
+
+
+***********************************************************************************************
+
+
+
+
+
+
+
+Expressions regulieres (rationnelles)
+=>char[] qui decrit un ensemble de char[] (<fini ou infini)
+elle permet de decrire un ensemble de char[],donc l'expression reguliere
+permet aussi de verifier aussi si char[] quelconque dans le source appartient ou non. =>??optimisation en définissant des jetons??
+
+NON: expression  régulière décrit un language soit un ensemble de mots sur un alphabet sigma donnée si le char[] declare convient, alors tout EST BON. 
+     permet  d'enumerer (quand c'est possible) de maniere exhaustive) toutes les char[] d'un format donne:(contenant 2a terminant par deux z...)
+     
+-------------------------------------------------------------------------     
+par exemple: abcd-aaaa-a-ad(le format) (qui ont toutes le format suivant)
+tous les char[] commancenant par a 
+=>a* enfin presque c'est une espression régulière décrivant le languge L(a*)=L(a)* qui est la fermeture de kleene de L(a).
+<=>ELLE SPECIFIE FORMELLEMENT UN MODELE.
+RAPPEL: l(a*)=l(a)*=union L**i pour i>=0 ..///
+permettent:
+char[] respecte la syntaxe de l'expresion
+^;;retrouver les chaines qui respectent une certaine syntaxe a l'interieur d'un char[]
+^;;remplacer des sous chaines qui respectent une certaine syntaxe à l'interieur d'une chaine de caracteres (~~~~~optimisation)
+
+format universel aa*(b|c)[equivalent à la description d'une expression reguliere qui par definition theorique est soit le vide soit le mot vide soit s pour tout s dans le language et si s1 et s2 sont 2 expressions regulières alors s1+S2 / s1.s2 / s1_grande|*| qui signifie par exemple sur {0,1} le mot 0+1 le mot 0.1 le mot 0000000 ca se rapporte à la question du language d'une expression régulière genre + c'est l'union ; . c'est la concaténation est la grande ETOILE c'est la concatenation de la meme chose on dirait. ; donc à vrai dire, aa*(b|c) se refère à l'expression aa*(b+c) soit le language representé (tjrs c'est la question posée) est L(a).L(a)*L({b})unionL({c}).//////]
+
+
+description des mots d'un language.
+=>language regulier/reconnaissable/rationnel.
+fermeture de klenne positive (n'inclut pas le espislon ensembliste(neutre)). ----car L**0={epsilon neutre mot non vide!!!!!}.
+****************************************************************************
+ 
+ 
+ "if"|"then" qui est une expression régulière définissant un lexième plus étroitement une unité lexicale (JETON) est définit par le language {if,then}.
+ x et y sont deux expressions régulières alors (x)(y) en est aussi exemple:
+ 	("var")("<") => le language{var<} soit une partie d'un jeton (accepte!!!).
+RQ:
+(x) définit le language L(x).(jeton/partie d'une jeton)
+PROPRIETEES TRIVIALES:
+1-associativité.
+2-distributivité
+3-AUTRES TRIVIAUX.
+
+
+
+
+
+_____________________________________________________________________________________________
+Les proprietes images des EXPRESSIONS REGULIERES se retrouvent dans la nature même des ensembles qu'on a pratiqué tout petit.
+A RETENIR: language défini: de l'expression on peut avoir ... VOILA.
+ce qui est difficile:
+(a|b)* donne en language l(a)* union l(b)* ce qui conforme à (a*|b*)  si on ajoute une autre etoile par le dessus  on aura par exemple: aabbab forcement *quelque chose derivee de cela impossible un a tout seul et bien non! ça pourrait y arriver. donc ===(a*|b*)*. ce qui peut aussi donner (a*b*) et (a*b*)* et l'associativite joue un rôle majeur en terme de déplacement d'étoiles ici.
+VOILA.
+------------------
+SYNTAXE:
+1)-littéraux:
+représentent qu'eux mêmes.
+2)-les méta-caractères:
+{n,} repetition n ou m fois maximimum ce qui suit.
+{n} au moins n fois
+$[]\^$.-?{n,m}()|*.
+=>Parlons des classes de caractères:
+[a-zA-Z] définit un jeton pour declasser les char* par exemple!
+et ainsi de suite pour les exemples des autres méta-caractères (rencontré dans la shell partiellement).
+=>=>Les autres méta-caractères sont comme des littéraux:
+\d
+\D
+\w
+\W=[^\w]
+\s=[\r\t\n]
+\S=[^\s].
+3)-Les ancres:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
