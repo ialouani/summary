@@ -1,0 +1,25 @@
+analyseur syntaxique construit l'arbre de dérivation pour répondre à l'étape lexicale.
+2 approches (ascendantes/###).
+EXEMPLE:
+S->aABe
+A->Abc|b
+B->d
+S axiome depart
+abbcde a valider
+de la racine aux feuilles
+            S
+       a   A   B  e
+          Abc
+         a bbc  d  e
+ca donne en feuilles regroupement: abbcde;voilà.
+=>APPROCHE ASCENDANTE:
+
+S
+         aABe
+         aAde
+         aAbcde
+        abbcde c'est un arbre (comme syntaxique de logique!!!!!!!!!!!!!!!!!!)
+        VOILA.//
+
+VOILA COMMENT MARCHE LES ANALYSEURS SYNTAXIQUES. 
+
