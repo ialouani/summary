@@ -1,0 +1,171 @@
+((SUITE))
+expressions regulieres=>description lexemes d'un language(but).
+limites..
+Sol: faire appel aux automates:
+:l'analyse lexicale: <=> RECONNAITRE LES MOTS D'UN LANGUAGE.
+:l'analyse syntaxique: <=> RECONNAITRE LES PHRASES D'UN LANGUAGE.
+**********************
+régulier=>via reconnaissance d'algo en complexite finie.
+RAPPELS:
+lemme de pompage
+de droite a gauche pour lire le regulier d'en dessus.
+**********************
+{a^n*b^n}=>retenir le a pour commencer le b avant le mot dans L => pas regulier. 
+*********************************************************************************
+RAPPELS RAPIDES:
+1-antomate non ambigu.(au plus une transition)
+2-automate complétement définie: au moins une transition par symbole d'ALPHABET.
+3-automate fini déterministe: automate non ambigu et complétement définie (SANS UNE ETIQUETTE epsilon avec un seul état acceptant.)
+-----------------ALGO DE DETERMINISATION D'AUTOMATES:-------------------------->>>>
+1-On ajoute un état non final (état poubelle) au diagramme.
+2-Pour tout s de sigma, on rajoute un arc de s vers cette poubelle.###
+3-###_{ 2 }.//
+=>a cet étape, on a fait une ~~~complétude sans se soucier de la nature de l'automate 
+=>il devient complétement défini.((au moins un arc sortant de chaque ETAT!!!!))
+conclusion:
+poubelle
+ce qui sort via l'alphabet.
+ce qui va rentrer et manque vers l'état poubelle.
+DEMARCHE PERMETTANT DE RENDRE L'AUTOMATE FINI ET NON DETERMINISTE VIA UN ETAT DIT ETAT POUBELLE.
+quituple: automate::
+=>DFA: automate fini déterministe.
+**********************************************************************************************
+REPRESENTATION TABULAIRE:
+état\alphabet  lettre  chiffre
+1       3 2
+2	ERROR ERROR
+3	3 3 
+table de transition
+2<-chiffre 1 au dessus entrant vers 3 2 boucles lettre chiffre.
+FIN:
+ERROR
+ERROR
+ACCEPTE(terminaison sur un etat final)./////
+=>utilisation en future proche par un algo de reconnaissance..///
+******************ASTUCE:>>>>>>>>>>>>>
+automate complétement défini 
+implique verifier si:
+la table de transition excepte la colonne fin ne presente par d'ERROR.
+Car si cela se fait donc il existe s partant a t impossible donc au moins pas realise donc puisque pas vide => automate pas completement defini.
+***********************************
+*************************************************
+************************************************************************************
+ANALYSEUR LEXICAL:*************>>>>>>>>>>>>>::::::::::::::::::::::::::::::::::::::::::
+ALGORITHME:
+1-ajouter le symbole FIN a la fin de chaque mot qu'on veut analyser.
+2-a7bFIN Etat:=1
+Répeter(boucle!!!)
+lire le suivant c'est le new symbol
+si lettre: LU=lettre
+Etat###accepteur=>Etat nouveau en cours = table[1,lettre]=>3 lettre est le nom d'une colonne!!!!!
+do}} while ETAT=ACCEPTE ou qlq chose d'autre.
+=>c'est accepte.
+***********************
+CET ALGORITHME PERMET DE FAIRE UNE ANALYSE LEXICALE A PARTIR DE LA TABLE DES TRANSITIONS.
+SI L'ALPHABET EST s1,s2 et 0,1,2 les étiquettes ;  on SUIT l'algo suivant:
+si dans le mot construit on commence avec état variable mise à 1.
+si la 1ere partie est s1 alors lu=s1
+sinon (on a que 3) lu=s2
+sinon lu=fin
+(j'ai oublie de dire qu'on ajoutait fin a la fin du mot)
+apres si c'est autre ca s'affecte a erreur (l'état!!)
+puis on teste:
+si etat###erreur alors état=table[état,lu] jusqu'à ce que état=accepté ou état=erreur(ce qui est rare d'arriver).
+on oublie pas qu'on opère sur symbol that modifies her value per iteration.
+
+
+
+
+IMPORTANT:
+                    ACCEPTATION OU NON VIA LA TABLEA DE TRANSITION.
+                    ***********************************************
+                    ***********************************************
+-----------------------
+ALGO DE THOMSON(par passage .. ..  )
+permet de retrouver un AFD a partir de son expression regulierere.
+demo par induction
+si 'mot vide' s->t_final regle le probleme étiquetée epsilon
+si une lettre de même.
+Maintenant:
+on suppose que s et t sont deux expressions avec leurs automates donc 3 cas de construction de nouvelles expressions regulieres:
+1-(s+t): q->A1 les deux convergent vers f via epsilon comme la divergence au debut.
+
+          \>A2 (fortement équivalent à (s)|(t))
+2-s.t:
+q->_epsi__q1->A1->_epsi__securite->A2->_epsi__q2->f.
+3-s*²
+i->vers: q->|A|->q' et q' sort vers q avec epsilon et q' aussi vers f qui ressort à i avec epsilon .(toutes POSSIBILTEES JOINTES)
+__________________
+__________________
+__________________
+NFA=>DFA:(via la table de transition)
+alphabet/etiquettes puis les transitions: error, puis ajout colonne fini..
+(ou il va partir soit l'alphabet rappel lalgorithme)
+il y a erreur evidemment dans la table
+!!ON AJOUTE UNE COLONNE FIN QUI PERMET DE CAPTER LES ETATS FINAUX DES LA CONSTRUCTION DE LA TABLEA DE TRANSITION!!
+1->2,4
+=>ajout d'une nouvelle ligne 2,4
+de meme 5,3.
+Puis chaque on l'a remplit avec le plus grand des deux superpositions des valeurs des lignes des deux ignes 2 et 3 et 5 et 3 séparément. Le accepté gagne!!
+=>=>GENERATION D'UN NOUVEL AUTOMATE:
+ca revient a faire une réduction cad. des classes d'équivalences si des arcs epsilon des rebondissement vers le memem noeud si epsilon aussi et renommage si on veux que ca soit jolie et apprecie surtout par le public. Enlever 2 si dans une classe d'équivalence il y a 2 avec ses copins qui pointent sur la même place. Ca serait dommage. Et voilà. 
+ PUIS:
+ ******************MINIMISATION PAR LA METHODE DE PARTIONNEMENT DIFFERE SELON LES 
+ CLASSES:******************************************(facile a faire et a mettre en oeuvre)
+ =>pas d'algo particulier comme thomson ou bien celui d'avant.(determination d'une NFA).
+ 
+ 
+ SUITE: analyse syntaxique::plus loin encore mais pas de pratique pour l'instant.
+
+
+
+CE QUI ETAIT IMPORTANT ET A RETENIR C'EST LA RECONNAISSANCE d'UN MOT COMPLET VIA UNIQUEMENT LA TABLE DE TRANSITION D'UN aUTOMATE COMPLETEMENT DEFINI.
+**************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
