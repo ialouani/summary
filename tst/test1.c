@@ -16,7 +16,14 @@ int main(int argc, char** argv){
   }
   filename=argv[1];
   program=read_entry(filename);
-  printf("%s\n",program);
+  Tokens *tokens=new_tokens();
+  add_token(&tokens,"x",1);
+  add_token(&tokens,":",1);
+  add_token(&tokens,"number",5);
+  add_token(&tokens,";",1);
+  display(tokens);//affichage normale!!!!!!!
+  //conformement aux regles.
+  //  printf("%hhn\n",program);
   //  free(program);
   return 0;
 }

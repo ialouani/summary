@@ -2,8 +2,10 @@ project: exec_1
 all1: src/lexer.c tst/test1.c
 	rm -rf bin
 	mkdir -p bin
-	gcc -I ./include $^ -o bin/rslt_one
+	gcc -g3 -O0 -I ./include $^ -o bin/rslt_one
 exec_1:all1
+	./bin/rslt_one rien
+creation:
 	dd if=/dev/urandom of=rien bs=64M count=16 && ./bin/rslt_one rien
 clear:
 	rm -f rien
