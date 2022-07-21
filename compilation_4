@@ -1,0 +1,83 @@
+analyse lexicale fournit une table de symboles via des unités lexicales sur demande à l'analyse syntaxique. Puis vient l'arbre syntaxique TRIVIALEMENT.
+NOM TYPE TAILLE ADRESSE
+LE BUT PRINCIPAL AVANT LA SEMANTIQUE++++:
+a-reconnait les phrases d'un language conformément à une grammaire.
+b-~~analyse grammaticale.
+c-récupère les unités lexicales produites par l'analyseur syntaxique et s'assurent qu'elles forment des phrases valides(respectent les règles de la grammaire du language).
+---------------------
+Rôle:
+activer l'analyseur syntaxique via le tableau..
+vérifier la conformité syntaxique vis-a-vis d'une grammaire.
+construire un arbre qui représente e programme(arbre d'analyse) ...
+*******************************************************
+REVISION GRAMMAIRE:
+la syntaxe=>specifiee par une grammaire.
+composée de règles.
+------forme d'une règle: symbole->expression.
+______dans l'expression on peut avoir deux sortes dde symboles: les terminaux(les unités lexicales reconnues dans l'analyse lexicale)
+ 	des symboles intermédiaires: les variables ou non terminaux.
+ 	EXEMPLE
+    SIGNIFICATIF:
+instr->if(expr)theninstrelseinstr.
+--------------------------------------------------------
+Une grammaire:
+définie par:
+terminaux,###,axiome de départ,règles:V*(A|V)*
+	<=>la règle sera EVIDEMMENT DE CETTE FORME SUIVANTE:
+			une règle (x,w) dans V*(A|V)* est notée: x->w.
+RQ/::/ 
+	Un mot sur A est une suite d'éléments de A.. .. .. ..///
+***************
+***************
+EXEMPLE ARITHMETHIQUE TRES COMPREHENSIF:
+Alphabet A={nombre,(,),+,-,*,/}
+non-terminaux V={E}
+Axiome de départ: S=E.
+Règles:
+	1.E->nombre
+	2.E->(E)
+	3.E->E-*+/E
+	6 règles dans la grammaire A.
+CONCLUSIONS:
+1-
+	le language engendre par une grammaire est l'ensemble des phrases qui sont uniquement composées de symboles terminaux dérivant de l'axiome.
+		Une phrase appartient à un language si il existe (au moins) un arbre de dérivation dont les feuilles représentent exactement la phrase en question..///.
+2- 	dans un arbre de dérivation:
+		les noeuds sont étiqutés par des non-terminaux
+		les feuilles sont étiqutées par des terminaux (ou epsilon...)
+		la racine est etiquetée par le symbole de départ(axiome)
+		chaque noeud correspond à une règle de production de la grammaire
+3-	Pour une phrase d'un language, une ou plusieurs déruvations sont possibles. 
+***********************************************************************************************
+GRAMMAIRES AMBIGUES ET PROBLEME DE COMPILATEUR ----UTILISATION:
+TOUT SIMPLE:
+résolution des ambiguitées revient à traiter les symboles non terminaux.
+((les resultats en grosse partie...))
+
++<-<*</
+avec des parenthèses parfois, ca pourrait nettement lever ce souci.
+exemple concret:
+if ..
+..
+else
+..
+if 
+.. ce if dans le cas ou else est realise ne doit pas etre fait=>resolution de l'ambiguité par le fait d'imposer des règles de position TOUT SIMPLEMENT!!
+2IEME POINT: GRAMMAIRES REGULIERES VS. NON REGULIERES:
+associée à un language régulier, représentable par un automate fini. Elle ne comporte pas de récursivité centrale direct ou indirect:
+.E->"("E")"|nombre : recursivite centrale directe. 
+.E->F|nombre ; F->"("E")"|nombre: recursivité centrale indirecte. 
+ELLE N'AS PAS BESOIN DE MEMORISER TOUT AU LONG LES ETATS VISITES LORS D'UN 'TEST'  D' INSTRUCTION(s).
+VOILA.//
+***********************************************************************************************
+GRAMMAIRE NON CONTEXTUELLE:(pas important mais necessaire pour savoir le fonctionnement, la definition MEME des automates a pile)::::>>>>>>>>>>>>>>>
+Backus-naur(NFS) ----####²²²²reconnaissance.
+ca se note Y/Z empiler/depiler.
+de 1 (initial!!) vers 2 puis boucle epsilon/Z le mot accepter ou non via les empilements:depilements epsi/Z je depile Z puis a 3 j'empile Z car Z/epsi tout est correct.
+les grammaires hors contexte se doivent ajouter une condition pour que le mot soit reelement accepte cest l'automate a pile car on peut se tromper d'automate..///
+fin: epsilon :: mot accepte.
+deux grammaires acceptant leurs memes languages relatifs ou une phrase meme..///
+***************************************
+***************************************
+***************************************
+
