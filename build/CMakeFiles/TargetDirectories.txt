@@ -1,0 +1,1 @@
+/home/ubuntu20/summary_compilation_2A/build/CMakeFiles/all2.dir
