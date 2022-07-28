@@ -1,0 +1,401 @@
+EXERCICE1:
+on a x,px,y,z,y1,y2,y3 comme variables.
+L'évaluation des instructions en son ensemble avec autant de registres qu'on veut donne ceci:
+pour la premiere:
+x=(y1+y2)+y3
+ecriture memoire via une addition stockée en mémoire +y3.(on ignore les conversions comme indique)
+
+<=>r_y1=*rpy1;r_y2=*rpy2;r_y3=*rpy3;//on récupère d'abord les lectures mémoires via des déférencements.
+PUIS: on commence l'écriture mémoire qui consiste en: *&rslt=rslt_fourni.
+*r_py=r_y1+r_y2
+*px=*r_py+r_y3
+Ecriture mémoire: *px=*rp_y+r_y3.
+(Rq: aucune constante ne doit apparaître)
+=>4 registres (4 adresses)
+x=*(px++)
+<=>Voilà.
+En général:
+la lecture d'une constante ou un id nommé inconnu x se fait via:
+	ri=*rpx <=> on écrit dans ri *&x<=>x.
+	*rp2=ri; 
+	<=>on écrit dans *&2 (convention) le contenu memoire pas adresse: ri(=*rpx comme avant).
+ **********************************************************
+ 2ieme expression:
+y=*(px++)
+ON REPREND:
+y recoît *px++ soit : 2 opérations: px++ après le fait que y=px[0]=*px
+*rp_y=*px
+voilà puis on incrémente px.
+Difficile de définir le 1 ou bien faire un ++ dans ce mini jeu d'instructions de traduction sur le C.
+On fera la chose suivante:
+on définit un label:
+ri=0
+rb est un registre definissant si ri == 1.
+l: goto l
+l: if !rb goto l2
+l3: if rb goto l4
+l2: ri=1
+l4:
+px=px+ri ;//pour avoir: px++;;
+  **********************************************************
+  3ieme expression:
+r3=px
+r4=ri*3
+r3=r3+r4
+r5=ri*y
+r5=r5+r3
+r6=*rpz
+*r3=*r5+r6
+*r3 rslt final d'affectation memoire est absolument: *(px+3).
+on a 1 écriture mémoire via 3 variables chacune d'elle par exemple y1 passe par p_y1 via: un registre qui contient la valeur en *p_y1. Donc pour la 1ere il en faut pour mettre en mémoire 3 registres puis un rslt registre qui contiendra r_y1=*r_p__y1 ainsi de suite soit 3. Pour le x pareil ri(ex.)=*px puis *px=registre_du_resultat.(ou directement vu que c'est defini)
+Voilà.
+Résultat : majoration de 3 registres.
+2ieme instruction:
+ ecriture memoire en y => ri2=*rpy puis *rpy=rslt (pas de conversions (rappels))
+ 1 registre à l'instant.
+ ON COMPTE PAR REGISTRE UNE ADRESSE MEMOIRE MAIS QUI CONTIENT UNE VALEUR.
+ 2 adresses et 2 labels soit 2 registres pour l'incrémentation : px++.
+ ET pour l'AFFECTATION: *rpy=*rpx tout simple vu qu'on utilise implicitement px pour désigner l'adresse de x. Soit en gros: 3 registres.(voire 5 pour les labels)
+ RQ: quand on parle de variabe intermediaire ou bien d'un branchement ou bien d'une constante on parle forcement d'une adresse temporaire soit un registre a compter.
+ 3ieme:
+ on a rb on construit ri3=px+ri2 avec ri2=rb2+*rpy avec ri2 initialisée à 0.
+ puis *ri3=(de meme: 3 registres + 2 labels pour faire px+3)*ri4+*rpz soit 7 registres + 4 labels.
+ Majoration: 20 emplacements volants.
+ RAPPELS:
+ ecriture memoire:
+ ri=3 non
+ on passe par son adresse rp_3
+ et on ecrit: ri=*rp_3
+ puis si lecture mémoire:
+ par exemple, ecriture dans ri2:
+ ri2=ri+*rp_3 pour faire ri2=3*2 soit 6.
+ Si on voit le programme sans developper, il en faut 10 emplacements mémoires différents:
+ rpx/rpy/rpy_1;2;3/rp1/rp3/rp3_rslt/rp__xy/rpz.(correspondants à des adresses car ri=* puis *=rj avec rj deference peut prêter à confusion)
+ 
+ --------------------------------------------------------------------------
+ 
+ 
+ EXERCICE2:
+ la même chose mais mois compliqué car par de déférencement pas d'adresses, pointeurs en vue.
+ le nombre de registres est à mitiger.
+ optimisation possible: utiliser le parallélisme au lieu des instructions à 3 registres séquentiellement(manière de voir la chose).
+ 
+ 
+ 
+ 
+ ----------------------------------------------------------------------------
+ 
+ 
+ 
+ 
+ EXO3:
+ l1: if *rpx then l2
+ l2: if *rb then l3
+ l2_2: if * rb then l3_3
+ l2_2__2: if !*rb then l3__3
+ l3: *rpy=0
+ l3_3: *rpx=1
+ l3__3: *rpx=*rp2 ; //utilisation de l'adresse de 2 direct.
+ ll1: if rb (avec rb le registre booléan correspondant à (*rpx)x<100) goto ll1
+ ll2: *rpx=*rpx+1
+ ll3: if rb goto ll2
+ END.
+ Les autres permettent de faire une incrementation obligeatoire en premier, la derniere pareille.
+ On a utilisé 10 labels en general pour les 3 instructions. (bcp)
+ =>optimisation possible si on reflechit pas en terme d'adresses seulement qui nous gêne.
+ par exemple pour la 3ieme:
+ l: *rpx=*rpx+*rp1
+ ri=*rp100
+ l2: if rb goto l3
+ l22: if rb goto l4
+ l3: ri=ri+*rp1 
+ l4: *rpx=*rpx+*rp1
+ l44: goto l5
+ l5: goto l2
+ 7 registres => au lieu de 3 registres (anti-optimisation).
+ Mais la derniere est la bonne voire celle-ci car les 3 dernieres equivalentes:
+ l: *rpx=*rpx+*rp1
+ l1: if rb goto l1
+ VOILA TRES OPTIMISE ce code: 2 labels. (avec rb registre booléen et rp1 adresse de la variable intermediaire de l'UAL via la ROM de 1).
+ LES 2 PREMIERES:
+ l: if *rpx goto l2
+ l2: *rpy=*rp0
+ voilà.
+ La deuxieme:
+ l1:if *rb l2
+ l2:if !*rb goto l3
+ l3: *rpx=2
+ en 3 labels c'est nécessaire. 
+ <=>C'est le préliminaire : code 3 adresses. 
+ car on utilise explicitement les registres en tant que valeurs ou d'adresses en deferencement avec un indic.
+ ********************************************************************************code 3 adresses.
+  Ce sont des expressions à compiler à la main.
+  =>compilation des expressions.
+  =>compilation des instruuctions à contrôle.
+
+-----------------------
+-----------------------
+
+
+3 :Compilation "paresseuse" des booléens:
+La compilation d'une expression booléenne peut être representé par un triplet: (p,lt,lf).
+où p est un programme (code en 3 adresses) qui branche sur lt si le booléen est évalué à vrai et qui branche sur lf si le booléen à faux. 
+=>Dans une conjonction e1^e2 il n'est pas nécessaire d'évaluer e2 lorsque e1 est faux.
+=>Dans une disjonction e1 OU e2 il n'est pas nécessaire d'évaluer e2 lorsque e1 est vrai. 
+
+RESUME:
+booléen=>(p,lt,lf) ou p est un programme en code de 3 adresses et 2 labels.
+p branche sur lt si le booléen est vrai et sur lf si le booléen est faux.
+p: goto p2
+p2: if rb goto lt
+p3: if !rb goto lf
+Voilà la pseudo-shématisation en gros. 
+RESUME + RAPPELS:
+Préserver les écritures, les bonnes lectures si aucun registre specifié pour la variable, etc..
+PAR EXEMPLE: exo3::
+>
+if !x goto fin;
+y=0;
+fin: nop
+>
+if !b then felse;
+x=1;
+goto lfin;
+felse: x=2;
+lfin: nop
+(~code assembleur avec le booléen et le *(void)(,...) ...)
+>
+ltest:	ri1=x;
+	rb=(ri1<100);
+	if !rb goto lend;
+	ri2=x;
+	ri2=ri2+1;
+	x=ri2;
+	goto ltest;
+lend: nop
+//convention while classique.
+//code 3 adresses dans le même ordre qu'on lit le truc.
+//évaluation de la condition=>code source
+//que faire?=>code source
+//VIA 2 labels le dernier pointant vers nop;
+VOILA.
+>
+lboucle:
+	ri1=x;//ecriture mémoire d'un contenu adressable sur une stack en haut.
+	ri1=ri1+1;
+	x=ri1;//au lieu de *rpx=ri1 mais le fait qu'on utilise des registres intermediaires 	pour faire les calculs relatifs a x, ce n'est pas grave.
+	ri2=x;
+	rb=x<100;
+	if rb goto lboucle;
+>
+lboucle:
+	ri1=x;
+	ri1=ri1+1;
+	x=ri1;
+	ri2=x
+	rb= x==100
+	if !rb goto lboucle
+_______________________________________________________________________________________
+REVENIR A LEXO 4:
+Rappel: 
+1->compilation a la main d'expression via un code a 3 adresses comme instructions briques au max.
+2->le suivi avec les branchements conditionnels et le mot keyword goto.
+3->application exo1/2/3.
+>EXO4 maintenant:
+if e1 && e2 then p
+si e1 est faux stop
+sinon evaluation e2 et p.
+p peut ainsi representer via ces 2 labels en un code a 3 adresses un booléen.
+On désymétrise l'évaluation de l'expression.
+****L'évaluation paresseuse des booléens c'est d'abord une sémantique alternative asymétrique asymétrique que notre programme favoru pourra souhaiter utiliser.
+****Limiter les branchements, ca pourrait être un résultat d'optimisation=>un code qui va plus vite.
+****Les booléens d'évaluation sont compilés en branchement(pas le booléen: le programme p) vers lt si le booléen est vrai ou lf sinon.
+EXPRESSION1:
+if b then p1;
+<<p>> } code3@ de b.
+lt: <<c1>> } code 3@ de p1.
+lf: nop
+CAD.:>>>
+on a une booléen b alors (p,lt,lf) avec lt est <<c1>> le code p1 pour traduire l'entière signification du booléen.
+<<p>>; //execution de p et relier aux branchements apres..///
+lt: <<c1>>;//execution si !(rslt(*rp))
+    goto lfin;
+lf: <<c2>>;//sinon cela
+lfin: nop; //tout se termine par cela a la fin. 
+WHILE(p) do p1;
+test_while: <<p>>
+lt: <<c1>>
+    goto test_while
+lf: nop
+DO P1 UNTIL P
+lf: <<c1>>
+<<p>>
+lt: nop;
+Voilà, c"est logique et compréhensible.
+Ce sont des shémas de compilations.
+PLUS AVANCE:(pas dans l'exo)
+l'expression arithmétique e1+e2 peut se faire de la même manière en utilisant un couple (c,r) avec c un code 3@ et r le nom du registre où on stocke l'évaluation de e après execution de c. 
+
+**********************
+*********************************
+**************************************************************
+EXO5:
+(1) true via (p,lt,lf)
+true->(goto lt,lt,lf)
+false->(goto lf,lt,lf)
+(2)
+Rappels: ce sont des codes paresseux de compilation via des labels de programmes utilisant des instructions de code à 3 adresses max.
+exemple plus concret:
+b=x>100
+b->(if b goto lt,lt,lf; goto lf;)
+ou bien::
+if !b goto lf,lt,lf;
+goto lt;
+On suppose(et c'est le but) que b est traduit en (p,lt,lf) 
+que dire de la traduction de !b ?
+!b->(p,lf,lt) => negation d'une négation d'un booléen.
+>CONJONCTION:
+b1 ET b2:
+(paresseux vrai tout evalue || un seul le premier est vrai brak;;)
+lt2,lf1 prendre en compte
+<=>brancher en vrai si les 2 sont vraies et brancher sur lf1:lf2 si la premiere est fausse (appelle lf2..///).
+<<p1>>
+lt1: <<p2>>
+lf1: goto lf2
+vu que c'est booléen , on utiliserait un seul label.
+DONC le resultat sera le suivant:
+conjonction b1 && b2 <=> (<<p1>>;lt1:<<p2>>;lf1(lf):goto lf2(lf),lt2,lf(lf2 ou bien lf1 qui appelle lf2 soit: lf1:lf2.)
+>DISJONCTION
+b1||b2
+<=>(<<p1>>;lf1:<<p2>>;lt1:goto lt2,lt2,lf2)(tjrs le dernier preserver le meme lf est possible)).
+VOILA.
+ =============================================================================
+ resumons: 
+ la on veut coder le booleen b1 && b2 en utilisant (p1,lt1,lf1) et (p2,lt2,lf2) comme compilation des deux booléens respectivement b1 et b2.
+ on doit avoir une présentation (p,lt,lf) a la fin.
+ si b1&&b2 est vrai soit <<p>> soit <<p1>> et <<p2>> forcément.
+ p ca serait quoi?
+ true=>(goto lt,lt,lf)
+ p<=>code 3@ structuré (<<p1>>;lt1: <<p2>>;lf1:goto lf2 , lt2, lf2)++
+ cad. que la disjonction sera representé par un programme qui pointera vers le 2ieme en cas de vrai cad. si on teste p1 puis on se ramène à lt2 pour tester p2 on va se ramener a lt2 et tout sera ok sinon on ajoute un lf1 en cas de faux qui va faire goto lf2 (message d'erreur des le debut de l'evaluation du2). PUIS on rajoute les deux branchements a executer en cas de bienne chose: lt2 qui va s'en suivre pour terminer le code reliant le booléan de disjonction ou bien lf2 si <<p1>> ne donne rien ca va pas partir vers lt2 mais lf2 direct (car et) . 
+ SI ON RECOMMENCE AVEC LA DISJONCTION NOW:
+ (p,lt,lf)
+ (<<p1>>;lf1:<<p2>>;lt1:goto lt2) pour p
+ et pour lt et lf ou va se brancher ces deux dernieres choses:
+ (lt2,lf2) pour b1 || b2. (toujours lf en commun ..///).
+ ===================================================================================
+ 
+AVANT DERNIERE PARTIE: optimation du nombre de registres en deux lectures.(facile en 1 lecture direct c'est plus accessible;enfin presque).
+
+>>DERNIERE QUESTION DE CE TD:
+expression booléenne:
+On peut faire un parcours en profondeur des arbres syntaxiques des expressions booléens (images directes des representations syntaxiques d'expressions classiques arithmétiques) ainsi récupérer (ca peut se faire en récursif) la table de verité et refaire le meme processus que precedemmenten faisant une bijection des fils de la racines vers leurs representations paresseuses. Ainsi, on pourrait choisir un schema classique de representation (p,lt,lf) comme on a fait pour la disjonction/conjonction/boolean:=true;false ;; avec p qui va partir a lt si c'est ok lf sinon.
+RAPPELS:(derniers)
+Avec la &&:(le break des le debut c'est mieux<=>optimisation(moyen mnemotechnique))
+(<<p1>>;lt1:<<p2>>;lf1:goto lf2,lt2,lf1:goto lf2)
+et || VIA:
+(<<p1>>;lf1:<<p2>>;lt1:goto lt2,lt1,lf2)
+//on garde un goto tout a la fin..///
+
+FIN TD1.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
