@@ -3,17 +3,17 @@ savoir la construire
 **regle essentielle**:
 si X non terminal est tel que X->Y1....Yn alors premier(X) retrouve premier(Y1) sauf epsilon.
 --------------------LL-first:(debut initial d'un symbole non terminal derive d'un terminal)
-<=>premier(A) avec A->alpha* * bêta par exemple.(on prend le non terminal symbole alpha)
+<=>premier(A) avec A->alpha* * bêta par exemple.(on prend le terminal symbole alpha)
 --------------------LL-follow:
 Pour tout symbole non terminal, on calcule suivant A :
-ensemble des terminaux pouvant apparître immédiatement à droite de A.
+ensemble des terminaux pouvant apparaître immédiatement à droite de A.
 S*->alpha*A*a*bêta
 Dans la derivation ci-dessus "a" est un element de l'ensemble suivant (A). FACILE.
 --------------------
 ASTUCE: le reconnaitre depuis PREMIER:
 **(1)SUIVANT(A) est l'ensemble des terminaux pouvant apparaître à droite de A dans une dérivation S->alpha A a____ bêta
-**(2)Pour chaque production A->alphaBbêta ou B est un non-terminal, ajouter le contenu de premier(B) dans SUIVANT(B) sauf epsilon. 
-**(3)Pour chaque production A->alpha*B*bêta ou B est nn-terminal, premier(bêta)=premier(Ae)={a,e}. PAS LA PEINE DE SE COMPLIQUER LA VIE. A on peut le deriver se trouvant apres apres S.
+**(2)Pour chaque production A->alphaBbêta ou B est un non-terminal, ajouter le contenu de premier(bêta) dans SUIVANT(A) sauf epsilon.(apres derivation;ca rejoint la regle 5)
+--**(3)Pour chaque production A->alpha*B*bêta ou B est nn-terminal, premier(bêta)=premier(Ae)={a,e}. PAS LA PEINE DE SE COMPLIQUER LA VIE. A on peut le deriver se trouvant apres apres S.
 **(4)SUIVANT(A) est l'ensemble des terminaux pouvant apparaître immédiatement à droite de A dans une dérivation S->alpha*A*a*bêta.
 **(5)Pour chaque production A->alpha*B , alors ajouter SUIVANT(A) à SUIVANT(B).
 *********************************************
@@ -47,7 +47,7 @@ sinon on revient au cas classique de repertorier les symboles dans leurs context
 
 
 =>BUT: Accepter/Rejeter un mot par une grammaire:
-utiliser cette tablea pour rejeter ou accepter un mot:
+utiliser cette table pour rejeter ou accepter un mot:
 comment generer l'arbre de derivation:
 pile+algo+table de derivation.
 
