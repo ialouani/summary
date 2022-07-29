@@ -1,0 +1,101 @@
+EXO1:
+Un start symbol au début.
+Penser aux inclusion.
+S->epsilon
+S->aSb soit S->epsilon | aSb 
+genere le language {anbn|n dans N}
+Rem: non ambigue vu la forme des dérivations.
+Rem2(personnelle):
+p->q avec p:pointant sur lui-meme et q aussi avec les regles:
+a,w,A a,A,AA 
+b,AA,A b,A,w
+comme automate à pile fait de ce dernier non régulier non linéaire liée a cette grammaire non contextuelle.
+=======================================
+EXO2:
+Arbre de dérivation de abba
+S=>aB=>abS=>abbA=>abbaS=>abbae=>abba.
+S
+a B
+  bS
+   bA
+    aS
+     e
+On vérifie avec le mot de feuille: abbae soit abba.
+aabb
+S=>aB=>aaBB=>aabSbS=>aabbS=>aabb.
+Voila.
+2->Cette grammaire est elle ambigue?
+contre-exemple: 
+aa|b|_2ab|abb
+Les deux découpages possibles:
+On le réduit:
+aababbbaa
+1ere facon:
+S=>aB=>aaBB=>aabSB=>aabaB(S->aB)=>aababS(B->bS)=>aababbS=>aababbbA=>aababbbaS
+=>aababbbaaS=>aababbbaa.
+2ieme facon:
+S=>aS=>aaS=>aabS=>aabaB=>aababS=>aababbA=>aababbbAA=>aababbbaSaS=>aababbbaa.
+DONC: aababbbaa genere par cet grammaire comporte deux arbres de dérivation possibles ; donc: elle est ambigue. On dit que le language genere par celle-ci auquel appartient le mot est algebrique.
+3)Language genere par cette grammaire:
+On commence par définir L(S/A/B) les languages qu'on peut définir en dérivantions suivant S seulement.
+IL FAUT COMMENCER PAR DEFINIR LES LANGUAGES L(A):L(B):L(S).
+CAR: 
+=>par exemple L(A) est inclus dans le language induit par la grammaire 
+de même pour L(B) et L(S). (ce sont des non-terminaux cad. le language depuis leurs dérivations apportent qlq. chose pour le language de la grammaire au final donc l'union de ces 3 reside en le language total (à prouver) généré par la grammaire) tous non-terminaux donc on est dans la bonne voie.
+=>Cherchons L(A)/L(B)/L(S). 
+On conjecture que:
+L(S)={(a+b)*/|wa|=|wb|} et L(B)/L(A) par symétrie donne +1 pour la longueur des mots.
+Precision: (a+b)* définit des expressions regulieres soit linkage avec {a,b}* l'ensemble des non-terminaux vérifinat la conditions des 3###.
+L'union est incluse dans le language genere par la grammaire.
+Respectivement: on vérifie que c'est la plus petite c'est à dire un S' définissant les mêmes conditions tel que L(S) inclus pas strictement dans S' induit une ~~~erreur~~~.²
+Par induction sur la longueur des mots comme les définitions des conditions satisfaites par chacune précedemment.
+=>
+DEBUT
+POUR n=0:
+on a epsilon qui est dans S' (pour (0))
+POUR n=1:(autre cas trivial~~~):
+On a : a dans L(A) et on a bien a dans A' par LA REGLE 3
+->ELLE NOUS DIT aS' est inclus dans A'.
+de même pour b.
+TOUS LES MOTS DE LONGUEUR 1.
+(N+1): Soit w dans (a+b)^(n+1)
+2 cas: w=aw' avec w' dans (a+b)^n (dans L(origine))
+       w=bw' avec w' dans (a+b)^n (de même)
+ PLUS DE DETAILS FONDAMENTAUX:
+3 sous cas:(on fait c'est comme une double inclusion pour la grammaire)
+-> w dans L(S) donc w' dans L(B) union L(A)
+-> w dans L(A) donc w' dans L(S) ou bien L(B).L(B)
+puis symétriquement pour L(B). 
+Un a de plus pour les derivations de 'B' et symétriquement pour les deux.
+Cette dichotomie(etude par cas)
+Conclusion: Notre grammaire mime ces 6 décompositions par cas.
+L'ambiguité venait de L(A).L(A). (symétrie et language L(S)).
+CONCLUSION GENERALE:
+L(G)=L(A) UNION L(B) UNION L(C).
+<=>L(G)={(a+b)*/|wa|=|wb| ou bien |wa|=|wb|+1}.
+IL FAUT DEVELOPPER UNE INTUITION:
+voir les regles des non-terminaux A depassant par cycle les mots induits sur {a,b}^n.
+proposer des debuts d'inclusions pour prouver par recurrence sur ce critere que c'est la pus petite inclusion par cas contraire: L(S) dans S' puis égalité donc on peut pas avoir une plus grande donc c'est la plus petite soit elle par égalité.
+Il faut traiter les cas d'induction, évoquer les règles de grammaire notammement pour S',A',B'(inclusions de A' dans aS' par exemple..) pour prouver les appartennaces.
+Et finalement: jouer sur les symétries.
+=============================
+FIN PARTIE 1: grammaires en compilation=>deuxième partie: les conditionnelles et utilite des grammaires.
+=================================
+==============================================================
+EXO3:
+if id then if id then nop else nop
+I->C->if B then I->if B then if B then I else I -> if id then if id then nop else nop
+arbre de dérivation syntaxique préfixée triviale.
+Un deuxième triviale à prouver vu que le else se retrouve au résultat après le if..
+DONC grammaire COND:
+I->nop|C
+C->if id then I | if id then I else I
+I->id | true | false
+DANS LA PERSPECTIVE D'UNE TRADUCTION dirigée par la syntaxe, cette ambiguité est ennuyeuse car on aimerait utiliser cette syntaxe pour associer le else à une seule et seule condition.(alors que la le else se rapporte au if , c'est logique que c'est n'importe quoi..)
+==========================================
+================================================
+==============================================================
+NOUS Y VOILA ENFIN:
+Grammaire non ambigue generant le même language:
+REFLEXIONS:
+(a apprendre;méthodes moins qu'astuces): 
